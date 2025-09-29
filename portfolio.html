@@ -5,45 +5,95 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio</title>
-  <link href="./css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="./css/reset.css">
+   <link href="./css/reset.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
 </head>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const buttons = document.querySelectorAll('.control-button');
+  const items   = document.querySelectorAll('.advertisements-item');
+
+  const norm = s => s.toLowerCase().replace(/\s+/g,' ').trim();
+
+  // зчитуємо категорію з підзаголовка картки
+  const catFromSubtitle = (txt) => {
+    const s = norm(txt);
+    if (s.startsWith('веб')) return 'веб-сайти';   // "Веб-сайт"
+    if (s.startsWith('додат')) return 'додатки';   // "Додаток"
+    if (s.startsWith('дизайн')) return 'дизайн';
+    if (s.startsWith('маркетинг')) return 'маркетинг';
+    return 'інше';
+  };
+
+  // пропишемо data-cat кожній картці
+  items.forEach(item => {
+    const sub = item.querySelector('.advertisements-subtitle');
+    if (sub) item.dataset.cat = catFromSubtitle(sub.textContent);
+  });
+
+  const applyFilter = (cat) => {
+    items.forEach(it => {
+      const show = (cat === 'усі') || (it.dataset.cat === cat);
+      it.style.display = show ? '' : 'none';
+    });
+  };
+
+  // кліки по кнопках
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+      btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
+      applyFilter(norm(btn.textContent));
+    });
+  });
+
+  // дефолт: "Усі" підсвічена і все показано
+  const firstBtn = document.querySelector('.control-button');
+  if (firstBtn) { firstBtn.classList.add('active'); firstBtn.setAttribute('aria-pressed','true'); }
+  applyFilter('усі');
+});
+</script>
 
 <body>
+   <!-- HEADER START -->
   <header class="header">
     <div class="container header-container">
       <div class="header-wrapper">
-          <a href="index.html" class="header-logo" data-aos="zoom-in-right"
-            >Web<span class="header-logo-span">Studio</span></a
-          >
-          <nav class="header-nav" data-aos="zoom-out-up">
+        <a href="index.html" class="header-logo" data-aos="zoom-in-right">Web<span
+            class="header-logo-span">Studio</span></a>
+        <nav class="header-nav" data-aos="zoom-in-down">
           <ul class="header-nav-list">
             <li class="header-navigation-item">
-              <a href="index.html" class="header-link">Студія</a>
+              <a href="index.html" class="header-item-link animation">Студія</a>
             </li>
             <li class="header-nav-item">
-              <a href="portfolio.html" class="header-link">Портфоліо</a>
+              <a href="portfolio.html" class="header-item-link current-page animation">Портфоліо</a>
             </li>
             <li class="header-nav-item">
-              <a href="" class="header-link">Контакти</a>
+              <a href="" class="header-item-link animation">Контакти</a>
             </li>
           </ul>
         </nav>
       </div>
-        <ul class="header-list" data-aos="zoom-in-left">
-        <li class="header-info-item">
-          <a href="mailto:@devstudio.com" class="header-info-link">info@devstudio.com</a>
+      <ul class="header-list">
+        <li class="header-item">
+          <a href="mailto:@devstudio.com" class="header-link animation"><svg class="header-icon">
+              <use href="./icons/icon-gmail.svg"></use>
+            </svg>info@devstudio.com</a>
         </li>
-        <li class="header-info-item">
-          <a href="tel:+380961111111" class="header-info-link">+38 096 111 11 11</a>
+        <li class="header-item">
+          <a href="tel:+380961111111" class="header-link animation"><svg class="header-icon">
+              <use href="./icons/icon-smartphone.svg"></use>
+            </svg>+38 096 111 11 11</a>
         </li>
       </ul>
     </div>
-  </header>
+    </section>
+    </header>
   <!-- !H E A D E R  E N D -->
   <main class="main">
     <section class="control">
@@ -69,138 +119,125 @@
     </section>
     <section class="advertisements">
       <div class="container advertisements-container">
-        <ul class="advertisements-list">
-           <li class="advertisements-item  animation" data-aos="fade-up" data-aos-duration="3000">
-            <a href="" class="advertisements-link">
-                <div class="advertisements-overlay animation"><p class="advertisements-desc">Ресурс пропонує комплексні пропозиції
-                   з різним рівнем
-                   функціоналу та сервісів. Все це дозволить 
-                   відвідувачу отримати вичерпні відомості про 
-                   компанію чи приватну особу.</p>
-              <img src="./imgs/portfolio/people-making-difference.png" alt="people that make the difference"
-                class="advertisements-image" />
-              <div class="advertisements-item-container">
-                <h3 class="advertisements-title">Технокряк</h3>
-                <p class="advertisements-subtitle">Веб-сайт</p>
-              </div>
-            </a>
-          </li>
-           <li class="advertisements-item  animation" data-aos="fade-up" data-aos-duration="3000">
-            <a href="" class="advertisements-link">
-                <div class="advertisements-overlay animation"><p class="advertisements-desc">Ресурс пропонує комплексні пропозиції
-                   з різним рівнем
-                   функціоналу та сервісів. Все це дозволить 
-                   відвідувачу отримати вичерпні відомості про 
-                   компанію чи приватну особу.</p>
-              <img src="./imgs/portfolio/basketball.png" alt="Basketball" class="advertisements-image" />
-              <div class="advertisements-item-container">
-                <h3 class="advertisements-title">
-                  Постер New Orlean vs Golden Star
-                </h3>
-                <p class="advertisements-subtitle">Дизайн</p>
-              </div>
-            </a>
-          </li>
-           <li class="advertisements-item  animation" data-aos="fade-up" data-aos-duration="3000">
-            <a href="" class="advertisements-link">
-                <div class="advertisements-overlay animation"><p class="advertisements-desc">Ресурс пропонує комплексні пропозиції
-                   з різним рівнем
-                   функціоналу та сервісів. Все це дозволить 
-                   відвідувачу отримати вичерпні відомості про 
-                   компанію чи приватну особу.</p>
-              <img src="./imgs/portfolio/seafood.png" alt="seafood" class="advertisements-image" />
-              <div class="advertisements-item-container">
-                <h3 class="advertisements-title">Ресторан Seafood</h3>
-                <p class="advertisements-subtitle">Додаток</p>
-              </div>
-            </a>
-          </li>
-           <li class="advertisements-item  animation" data-aos="fade-up" data-aos-duration="3000">
-            <a href="" class="advertisements-link">
-                <div class="advertisements-overlay animation"><p class="advertisements-desc">Ресурс пропонує комплексні пропозиції
-                   з різним рівнем
-                   функціоналу та сервісів. Все це дозволить 
-                   відвідувачу отримати вичерпні відомості про 
-                   компанію чи приватну особу.</p>
-              <img src="./imgs/portfolio/headphons.png" alt="Headphons" class="advertisements-image" />
-              <div class="advertisements-item-container">
-                <h3 class="advertisements-title">Проєкт Prime</h3>
-                <p class="advertisements-subtitle">Маркетинг</p>
-              </div>
-            </a>
-          </li>
-         <li class="advertisements-item  animation" data-aos="fade-up" data-aos-duration="3000">
-            <a href="" class="advertisements-link">
-                <div class="advertisements-overlay animation"><p class="advertisements-desc">Ресурс пропонує комплексні пропозиції
-                   з різним рівнем
-                   функціоналу та сервісів. Все це дозволить 
-                   відвідувачу отримати вичерпні відомості про 
-                   компанію чи приватну особу.</p>
-              <img src="./imgs/portfolio/boxes.png" alt="boxes" class="advertisements-image" />
-              <div class="advertisements-item-container">
-                <h3 class="advertisements-title">Прооєкт</h3>
-                <p class="advertisements-subtitle">Додаток</p>
-              </div>
-            </a>
-          </li>
-          <li class="advertisements-item  animation" data-aos="fade-up" data-aos-duration="3000">
-            <a href="" class="advertisements-link">
-                <div class="advertisements-overlay animation"><p class="advertisements-desc">Ресурс пропонує комплексні пропозиції
-                   з різним рівнем
-                   функціоналу та сервісів. Все це дозволить 
-                   відвідувачу отримати вичерпні відомості про 
-                   компанію чи приватну особу.</p>
-              <img src="./imgs/portfolio/inspiration-has-no-borders.png" alt="Inspiration has no borders"
-                class="advertisements-image" />
-              <div class="advertisements-item-container">
-                <h3 class="advertisements-title">inspiration has no borders</h3>
-                <p class="advertisements-subtitle">Веб-сайт</p>
-              </div>
-            </a>
-          </li>
-          <li class="advertisements-item  animation" data-aos="fade-up" data-aos-duration="3000">
-            <a href="" class="advertisements-link">
-                <div class="advertisements-overlay animation"><p class="advertisements-desc">Ресурс пропонує комплексні пропозиції
-                   з різним рівнем
-                   функціоналу та сервісів. Все це дозволить 
-                   відвідувачу отримати вичерпні відомості про 
-                   компанію чи приватну особу.</p>
-              <img src="./imgs/portfolio/book.png" alt="Book" class="advertisements-image" />
-              <div class="advertisements-item-container">
-                <h3 class="advertisements-title">Видання Limited Edition</h3>
-                <p class="advertisements-subtitle">Дизайн</p>
-              </div>
-            </a>
-          </li>
-           <li class="advertisements-item  animation" data-aos="fade-up" data-aos-duration="3000">
-            <a href="" class="advertisements-link">
-                <div class="advertisements-overlay animation"><p class="advertisements-desc">Ресурс пропонує комплексні пропозиції
-                   з різним рівнем
-                   функціоналу та сервісів. Все це дозволить 
-                   відвідувачу отримати вичерпні відомості про 
-                   компанію чи приватну особу.</p>
-              <img src="./imgs/portfolio/label-tag.png" alt="Label Tag" class="advertisements-image" />
-              <div class="advertisements-item-container">
-                <h3 class="advertisements-title">Проєкт LAB</h3>
-                <p class="advertisements-subtitle">Маркетинг</p>
-              </div>
-            </a>
-          </li>
-          <li class="advertisements-item  animation" data-aos="fade-up" data-aos-duration="3000">
-            <a href="" class="advertisements-link">
-                <div class="advertisements-overlay animation"><p class="advertisements-desc">Ресурс пропонує комплексні пропозиції
-                   з різним рівнем
-                   функціоналу та сервісів. Все це дозволить 
-                   відвідувачу отримати вичерпні відомості про 
-                   компанію чи приватну особу.</p>
-              <img src="./imgs/portfolio/growing-business.png" alt="Growing Business" class="advertisements-image" />
-              <div class="advertisements-item-container">
-                <h3 class="advertisements-title">Growing Business</h3>
-                <p class="advertisements-subtitle">Додаток</p>
-              </div>
-            </a>
-          </li>
-        </ul>
+       <ul class="advertisements-list">
+  <li class="advertisements-item animation" data-aos="fade-up" data-aos-duration="3000">
+    <a href="#" class="advertisements-link">
+      <img src="./imgs/portfolio/people-making-difference.png" alt="people that make the difference" class="advertisements-image" />
+      <p class="advertisements-overlay">
+        Ресурс пропонує комплексні пропозиції з різним рівнем функціоналу та сервісів. Все це дозволить відвідувачу отримати вичерпні відомості про компанію чи приватну особу.
+      </p>
+      <div class="advertisements-item-container">
+        <h3 class="advertisements-title">Технокряк</h3>
+        <p class="advertisements-subtitle">Веб-сайт</p>
+      </div>
+    </a>
+  </li>
+
+  <li class="advertisements-item animation" data-aos="fade-up" data-aos-duration="3000">
+    <a href="#" class="advertisements-link">
+      <img src="./imgs/portfolio/basketball.png" alt="Basketball" class="advertisements-image" />
+      <p class="advertisements-overlay">
+        Ресурс пропонує комплексні пропозиції з різним рівнем функціоналу та сервісів. Все це дозволить відвідувачу отримати вичерпні відомості про компанію чи приватну особу.
+      </p>
+      <div class="advertisements-item-container">
+        <h3 class="advertisements-title">Постер New Orlean vs Golden Star</h3>
+        <p class="advertisements-subtitle">Дизайн</p>
+      </div>
+    </a>
+  </li>
+
+  <li class="advertisements-item animation" data-aos="fade-up" data-aos-duration="3000">
+    <a href="#" class="advertisements-link">
+      <img src="./imgs/portfolio/seafood.png" alt="Seafood" class="advertisements-image" />
+      <p class="advertisements-overlay">
+        Ресурс пропонує комплексні пропозиції з різним рівнем функціоналу та сервісів. Все це дозволить відвідувачу отримати вичерпні відомості про компанію чи приватну особу.
+      </p>
+      <div class="advertisements-item-container">
+        <h3 class="advertisements-title">Ресторан Seafood</h3>
+        <p class="advertisements-subtitle">Додаток</p>
+      </div>
+    </a>
+  </li>
+
+  <li class="advertisements-item animation" data-aos="fade-up" data-aos-duration="3000">
+    <a href="#" class="advertisements-link">
+      <img src="./imgs/portfolio/headphons.png" alt="Headphones" class="advertisements-image" />
+      <p class="advertisements-overlay">
+        Ресурс пропонує комплексні пропозиції з різним рівнем функціоналу та сервісів. Все це дозволить відвідувачу отримати вичерпні відомості про компанію чи приватну особу.
+      </p>
+      <div class="advertisements-item-container">
+        <h3 class="advertisements-title">Проєкт Prime</h3>
+        <p class="advertisements-subtitle">Маркетинг</p>
+      </div>
+    </a>
+  </li>
+
+  <li class="advertisements-item animation" data-aos="fade-up" data-aos-duration="3000">
+    <a href="#" class="advertisements-link">
+      <img src="./imgs/portfolio/boxes.png" alt="Boxes" class="advertisements-image" />
+      <p class="advertisements-overlay">
+        Ресурс пропонує комплексні пропозиції з різним рівнем функціоналу та сервісів. Все це дозволить відвідувачу отримати вичерпні відомості про компанію чи приватну особу.
+      </p>
+      <div class="advertisements-item-container">
+        <h3 class="advertisements-title">Проєкт</h3>
+        <p class="advertisements-subtitle">Додаток</p>
+      </div>
+    </a>
+  </li>
+
+  <li class="advertisements-item animation" data-aos="fade-up" data-aos-duration="3000">
+    <a href="#" class="advertisements-link">
+      <img src="./imgs/portfolio/inspiration-has-no-borders.png" alt="Inspiration has no borders" class="advertisements-image" />
+      <p class="advertisements-overlay">
+        Ресурс пропонує комплексні пропозиції з різним рівнем функціоналу та сервісів. Все це дозволить відвідувачу отримати вичерпні відомості про компанію чи приватну особу.
+      </p>
+      <div class="advertisements-item-container">
+        <h3 class="advertisements-title">Inspiration has no borders</h3>
+        <p class="advertisements-subtitle">Веб-сайт</p>
+      </div>
+    </a>
+  </li>
+
+  <li class="advertisements-item animation" data-aos="fade-up" data-aos-duration="3000">
+    <a href="#" class="advertisements-link">
+      <img src="./imgs/portfolio/book.png" alt="Book" class="advertisements-image" />
+      <p class="advertisements-overlay">
+        Ресурс пропонує комплексні пропозиції з різним рівнем функціоналу та сервісів. Все це дозволить відвідувачу отримати вичерпні відомості про компанію чи приватну особу.
+      </p>
+      <div class="advertisements-item-container">
+        <h3 class="advertisements-title">Видання Limited Edition</h3>
+        <p class="advertisements-subtitle">Дизайн</p>
+      </div>
+    </a>
+  </li>
+
+  <li class="advertisements-item animation" data-aos="fade-up" data-aos-duration="3000">
+    <a href="#" class="advertisements-link">
+      <img src="./imgs/portfolio/label-tag.png" alt="Label Tag" class="advertisements-image" />
+      <p class="advertisements-overlay">
+        Ресурс пропонує комплексні пропозиції з різним рівнем функціоналу та сервісів. Все це дозволить відвідувачу отримати вичерпні відомості про компанію чи приватну особу.
+      </p>
+      <div class="advertisements-item-container">
+        <h3 class="advertisements-title">Проєкт LAB</h3>
+        <p class="advertisements-subtitle">Маркетинг</p>
+      </div>
+    </a>
+  </li>
+
+  <li class="advertisements-item animation" data-aos="fade-up" data-aos-duration="3000">
+    <a href="#" class="advertisements-link">
+      <img src="./imgs/portfolio/growing-business.png" alt="Growing Business" class="advertisements-image" />
+      <p class="advertisements-overlay">
+        Ресурс пропонує комплексні пропозиції з різним рівнем функціоналу та сервісів. Все це дозволить відвідувачу отримати вичерпні відомості про компанію чи приватну особу.
+      </p>
+      <div class="advertisements-item-container">
+        <h3 class="advertisements-title">Growing Business</h3>
+        <p class="advertisements-subtitle">Додаток</p>
+      </div>
+    </a>
+  </li>
+</ul>
+
       </div>
     </section>
   </main>
@@ -227,16 +264,16 @@
           <h3 class="footer-list-title">ПРИЄДНУЙТЕСЬ</h3>
           <ul class="footer-list">
             <li class="footer-item"><a href="" class="footer-link animation"><svg class="footer-icon">
-                  <use href="instagram"></use>
+                  <use href="./icons/icon-instagram.svg"></use>
                 </svg></a></li>
             <li class="footer-item"><a href="" class="footer-link animation"><svg class="footer-icon">
-                  <use href="twitter"></use>
+                  <use href="./icons/icon-twitter.svg"></use>
                 </svg></a></li>
             <li class="footer-item"><a href="" class="footer-link animation"><svg class="footer-icon">
-                  <use href="facebook"></use>
+                  <use href="./icons/icon-facebook.svg"></use>
                 </svg></a></li>
             <li class="footer-item"><a href="" class="footer-link animation"><svg class="footer-icon">
-                  <use href="linkedin"></use>
+                  <use href="./icons/icon-linkedin.svg"></use>
                 </svg></a></li>
           </ul>
         </div>
